@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Культурное наследие Алтайского края</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -17,6 +19,7 @@
     </header>
 
     <main id="app-container">
+        <!-- ДЕСКТОП: боковая панель -->
         <aside id="sidebar">
             <div id="filter-section">
                 <h2>Фильтры</h2>
@@ -50,6 +53,45 @@
         <div id="map"></div>
     </main>
 
+    <!-- МОБИЛЬНАЯ ВЕРСИЯ: плавающие кнопки справа -->
+    <div id="mobile-controls">
+        <button class="mob-btn" id="mob-filter-btn" title="Фильтры">⚙</button>
+        <div class="mob-divider"></div>
+        <button class="mob-btn" id="mob-zoom-in" title="Приблизить">+</button>
+        <button class="mob-btn" id="mob-zoom-out" title="Отдалить">−</button>
+    </div>
+    <button class="mob-btn" id="mob-about-btn" title="О проекте">?</button>
+
+    <!-- МОБИЛЬНАЯ ВЕРСИЯ: bottom sheet — фильтры -->
+    <div id="mobile-filter-sheet">
+        <div class="sheet-handle"></div>
+        <h2>Фильтры</h2>
+        <div class="filter-group">
+            <h3>Район / Город</h3>
+            <select id="district-filter-mob">
+                <option value="all">Все районы</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <h3>Категория</h3>
+            <div id="category-filters-mob"></div>
+        </div>
+        <div class="filter-group">
+            <h3>Тип объекта</h3>
+            <div id="type-filters-mob"></div>
+        </div>
+        <button id="reset-filters-mob">Сбросить всё</button>
+    </div>
+
+    <!-- МОБИЛЬНАЯ ВЕРСИЯ: bottom sheet — детали объекта -->
+    <div id="mobile-details-sheet">
+        <div class="sheet-handle" id="close-details-sheet"></div>
+        <div id="mobile-details-content">
+            <p class="placeholder">Выберите объект на карте</p>
+        </div>
+    </div>
+
+    <!-- Модальное окно "О проекте" -->
     <div id="about-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>

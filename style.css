@@ -1,45 +1,54 @@
-html, body { 
-    margin: 0; padding: 0; height: 100vh; width: 100vw; 
-    overflow: hidden; font-family: sans-serif; display: flex; flex-direction: column; 
+html, body {
+    margin: 0; padding: 0; height: 100vh; width: 100vw;
+    overflow: hidden; font-family: sans-serif; display: flex; flex-direction: column;
 }
 
 header { background: #333; color: white; padding: 10px; text-align: center; flex-shrink: 0; }
 header h1 { margin: 0; font-size: 1.2rem; }
 
-#app-container { display: flex; flex-grow: 1; overflow: hidden; }
+#app-container { display: flex; flex-grow: 1; overflow: hidden; position: relative; }
 
-/* Боковая панель */
 #sidebar {
-    width: 300px; background: white; border-right: 1px solid #ddd;
-    display: flex; flex-direction: column; z-index: 1000; height: 100%;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 2px 0 16px rgba(0,0,0,0.10);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    height: 100%;
 }
-#filter-section { flex-shrink: 0; padding: 15px; overflow-y: auto; }
-#details { flex-grow: 1; padding: 15px; overflow-y: auto; border-top: 1px solid #eee; }
-#footer-controls { flex-shrink: 0; padding: 15px; border-top: 1px solid #eee; background: #f9f9f9; }
 
-/* Стили фильтров */
+#filter-section { flex-shrink: 0; padding: 15px; overflow-y: auto; }
+#details { flex-grow: 1; padding: 15px; overflow-y: auto; border-top: 1px solid rgba(0,0,0,0.08); }
+#footer-controls { flex-shrink: 0; padding: 15px; border-top: 1px solid rgba(0,0,0,0.08); background: rgba(249,249,249,0.6); }
+
 .filter-group { margin-bottom: 15px; }
 .filter-group h3 { font-size: 0.9rem; margin: 5px 0; color: #555; }
 .filter-label { display: block; margin-bottom: 5px; cursor: pointer; font-size: 0.85rem; }
 .filter-label input { margin-right: 8px; }
 
 #map { flex-grow: 1; height: 100%; z-index: 1; }
+
+/* Тайлы: grayscale + opacity. Фон контейнера совпадает с затемнёнными тайлами */
 .leaflet-tile { filter: grayscale(50%) opacity(90%); }
+.leaflet-container { background: #a0a8a0 !important; }
+.leaflet-control-attribution {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: 0 0 3px rgba(255,255,255,0.8);
+    font-size: 0.7rem;
+}
+
 .placeholder { color: #999; font-style: italic; font-size: 0.9rem; }
+.monument-photo { width: 100%; border-radius: 6px; margin-bottom: 10px; }
+.info-block p { margin: 4px 0; font-size: 0.88rem; }
+
 #reset-filters { width: 100%; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+#reset-filters:hover { background: #5a6268; }
 
-/* Модальное окно */
-.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-.modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border-radius: 8px; width: 80%; max-width: 400px; position: relative; }
-.close-modal { position: absolute; right: 15px; top: 10px; cursor: pointer; font-size: 20px; }
-.issue-link { display: block; text-align: center; background: #2ea44f; color: white; padding: 10px; text-decoration: none; border-radius: 5px; margin-top: 15px; }
-
-/* Соцсети в модалке */
-a:has(img) { text-decoration: none; border: none; }
-.social-icon { width: 24px; height: 24px; margin-right: 10px; vertical-align: middle; transition: transform 0.2s; }
-.social-icon:hover { transform: scale(1.1); }
-
-/* Кластеры */
 .marker-cluster-small { background-color: rgba(148, 163, 184, 0.6) !important; }
 .marker-cluster-small div { background-color: rgba(100, 116, 139, 0.8) !important; color: white !important; }
 .marker-cluster-medium { background-color: rgba(100, 116, 139, 0.6) !important; }
@@ -47,12 +56,175 @@ a:has(img) { text-decoration: none; border: none; }
 .marker-cluster-large { background-color: rgba(71, 85, 105, 0.6) !important; }
 .marker-cluster-large div { background-color: rgba(51, 65, 85, 0.8) !important; color: white !important; }
 
-/* Центрируем зум */
 .leaflet-right .leaflet-control { margin-right: 10px; }
 .leaflet-top.leaflet-right { top: 50% !important; transform: translateY(-50%); }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 3000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow-y: auto;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.close-modal { position: absolute; right: 15px; top: 10px; cursor: pointer; font-size: 20px; }
+.issue-link { display: block; text-align: center; background: #2ea44f; color: white; padding: 10px; text-decoration: none; border-radius: 5px; margin-top: 15px; }
+
+a:has(img) { text-decoration: none; border: none; }
+.social-icon { width: 24px; height: 24px; margin-right: 10px; vertical-align: middle; transition: transform 0.2s; }
+.social-icon:hover { transform: scale(1.1); }
+
+/* Мобильные элементы скрыты на десктопе */
+#mobile-controls,
+#mob-about-btn,
+#mobile-filter-sheet,
+#mobile-details-sheet { display: none; }
+
+/* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
 @media (max-width: 768px) {
-    #app-container { flex-direction: column; }
-    #sidebar { width: 100%; height: 50%; }
-    #map { height: 50%; width: 100%; }
+
+    body { background: #333; }
+    header { padding-top: max(25px, env(safe-area-inset-top)); }
+
+    #app-container { flex-direction: column; overflow: hidden; }
+    #sidebar { display: none; }
+    #map { width: 100%; height: 100%; flex-grow: 1; }
+
+    .leaflet-top.leaflet-right .leaflet-control-zoom { display: none; }
+    .leaflet-top.leaflet-right { top: 10px !important; transform: none; }
+
+    /* Модалка снизу */
+    .modal { display: none; align-items: flex-end; justify-content: center; }
+    .modal[style*="block"] { display: flex !important; }
+    .modal-content {
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 16px 16px 0 0 !important;
+        max-height: 82vh !important;
+        overflow-y: auto !important;
+        box-sizing: border-box;
+    }
+
+    /* Плавающие кнопки — центр справа */
+    #mobile-controls {
+        display: flex;
+        position: fixed;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1500;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    /* Кнопка ? — правый нижний угол */
+    #mob-about-btn {
+        display: flex;
+        position: fixed;
+        right: 10px;
+        bottom: 20px;
+        z-index: 1500;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .mob-btn {
+        width: 36px;
+        height: 36px;
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(0,0,0,0.18);
+        border-radius: 6px;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.25);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #333;
+        user-select: none;
+        transition: background 0.15s;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .mob-btn:active { background: rgba(200,200,200,0.95); }
+
+    .mob-divider {
+        width: 36px;
+        height: 1px;
+        background: rgba(0,0,0,0.15);
+        margin: 2px 0;
+    }
+
+    .sheet-handle {
+        width: 36px;
+        height: 4px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 2px;
+        margin: 10px auto 16px;
+        cursor: pointer;
+    }
+
+    #mobile-filter-sheet {
+        display: block;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        z-index: 2000;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(0,0,0,0.12);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+        padding: 0 16px 24px;
+        max-height: 70vh;
+        overflow-y: auto;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+        box-sizing: border-box;
+        will-change: transform;
+    }
+    #mobile-filter-sheet.open { transform: translateY(0); }
+    #mobile-filter-sheet h2 { font-size: 1rem; margin: 0 0 12px; color: #333; }
+    #mobile-filter-sheet .filter-group h3 { font-size: 0.85rem; }
+    #mobile-filter-sheet select,
+    #mobile-filter-sheet .filter-label { font-size: 0.9rem; }
+
+    #mobile-details-sheet {
+        display: block;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        z-index: 1900;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(0,0,0,0.12);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+        padding: 0 16px 24px;
+        max-height: 55vh;
+        overflow-y: auto;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+        box-sizing: border-box;
+        will-change: transform;
+    }
+    #mobile-details-sheet.open { transform: translateY(0); }
+    #mobile-details-sheet h3 { margin: 4px 0 10px; font-size: 1rem; }
+    #mobile-details-sheet .monument-photo { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+    #mobile-details-sheet .info-block p { margin: 4px 0; font-size: 0.85rem; }
 }
