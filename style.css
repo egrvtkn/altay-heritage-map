@@ -1,15 +1,58 @@
-  body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-#map {
-    height: 100vh;
-    width: 100%;
+html, body { 
+    margin: 0; padding: 0; height: 100vh; width: 100vw; 
+    overflow: hidden; font-family: sans-serif; display: flex; flex-direction: column; 
+}
+
+header { background: #333; color: white; padding: 10px; text-align: center; flex-shrink: 0; }
+header h1 { margin: 0; font-size: 1.2rem; }
+
+#app-container { display: flex; flex-grow: 1; overflow: hidden; }
+
+/* Боковая панель */
+#sidebar {
+    width: 300px; background: white; border-right: 1px solid #ddd;
+    display: flex; flex-direction: column; z-index: 1000; height: 100%;
+}
+#filter-section { flex-shrink: 0; padding: 15px; overflow-y: auto; }
+#details { flex-grow: 1; padding: 15px; overflow-y: auto; border-top: 1px solid #eee; }
+#footer-controls { flex-shrink: 0; padding: 15px; border-top: 1px solid #eee; background: #f9f9f9; }
+
+/* Стили фильтров */
+.filter-group { margin-bottom: 15px; }
+.filter-group h3 { font-size: 0.9rem; margin: 5px 0; color: #555; }
+.filter-label { display: block; margin-bottom: 5px; cursor: pointer; font-size: 0.85rem; }
+.filter-label input { margin-right: 8px; }
+
+#map { flex-grow: 1; height: 100%; z-index: 1; }
+.leaflet-tile { filter: grayscale(50%) opacity(90%); }
+.placeholder { color: #999; font-style: italic; font-size: 0.9rem; }
+#reset-filters { width: 100%; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+
+/* Модальное окно */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+.modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border-radius: 8px; width: 80%; max-width: 400px; position: relative; }
+.close-modal { position: absolute; right: 15px; top: 10px; cursor: pointer; font-size: 20px; }
+.issue-link { display: block; text-align: center; background: #2ea44f; color: white; padding: 10px; text-decoration: none; border-radius: 5px; margin-top: 15px; }
+
+/* Соцсети в модалке */
+a:has(img) { text-decoration: none; border: none; }
+.social-icon { width: 24px; height: 24px; margin-right: 10px; vertical-align: middle; transition: transform 0.2s; }
+.social-icon:hover { transform: scale(1.1); }
+
+/* Кластеры */
+.marker-cluster-small { background-color: rgba(148, 163, 184, 0.6) !important; }
+.marker-cluster-small div { background-color: rgba(100, 116, 139, 0.8) !important; color: white !important; }
+.marker-cluster-medium { background-color: rgba(100, 116, 139, 0.6) !important; }
+.marker-cluster-medium div { background-color: rgba(71, 85, 105, 0.8) !important; color: white !important; }
+.marker-cluster-large { background-color: rgba(71, 85, 105, 0.6) !important; }
+.marker-cluster-large div { background-color: rgba(51, 65, 85, 0.8) !important; color: white !important; }
+
+/* Центрируем зум */
+.leaflet-right .leaflet-control { margin-right: 10px; }
+.leaflet-top.leaflet-right { top: 50% !important; transform: translateY(-50%); }
+
+@media (max-width: 768px) {
+    #app-container { flex-direction: column; }
+    #sidebar { width: 100%; height: 50%; }
+    #map { height: 50%; width: 100%; }
 }

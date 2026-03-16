@@ -1,38 +1,92 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS Leaflet -->
-         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
-          crossorigin=""></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"  
-      crossorigin=""/>
-      <!-- CSS для кластеризации -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Культурное наследие Алтайского края</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-
-    <!-- JS для кластеризации -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-    <title>Памятники Алтайского края</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header>
-    <!--   <h1>Карта культурного наследия</h1> -->
+        <h1>Культурное наследие Алтайского края</h1>
     </header>
-    
-    <div id="map"></div>
-    <script>
 
-        
-        var map = L.map('map').setView([52.3, 82.0], 8);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    </script>
+    <main id="app-container">
+        <aside id="sidebar">
+            <div id="filter-section">
+                <h2>Фильтры</h2>
+                <div class="filter-group">
+                    <h3>Район / Город</h3>
+                    <select id="district-filter">
+                        <option value="all">Все районы</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <h3>Категория</h3>
+                    <div id="category-filters"></div>
+                </div>
+                <div class="filter-group">
+                    <h3>Тип объекта</h3>
+                    <div id="type-filters"></div>
+                </div>
+                <button id="reset-filters">Сбросить всё</button>
+            </div>
+
+            <hr>
+            <div id="details">
+                <p class="placeholder">Выберите объект на карте</p>
+            </div>
+
+            <div id="footer-controls">
+                <button id="open-about" style="width: 100%; padding: 10px; cursor: pointer;">О проекте</button>
+            </div>
+        </aside>
+
+        <div id="map"></div>
+    </main>
+
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+
+            <p>Интерактивная карта объектов культурного наследия — это исследовательский проект по визуализации
+                архитектурного и градостроительного фонда.</p>
+
+            <p><b>О данных:</b> В основу легла актуальная информация из официального перечня выявленных объектов
+                культурного наследия <a href="https://ukn.alregn.ru/kulturnoe-nasledie/obekty-kulturnogo-naslediya/"
+                    target="_blank">Управления государственной охраны объектов культурного наследия Алтайского края</a>.
+            </p>
+
+            <p><b>Фокус на архитектуре:</b> Чтобы карта оставалась наглядным архитектурным справочником, я применил
+                фильтрацию данных. Из общей выборки были исключены мемориальные объекты, стелы, захоронения и малые
+                скульптурные формы. На карте представлены преимущественно <b>здания и исторические сооружения</b>,
+                формирующие историческую застройку населенных пунктов края.</p>
+            <h3>Контакты</h3>
+            <p>Автор: <b>Егор Вяткин</b></p>
+            <div class="contact-links">
+                <a href="https://t.me/egrvtkn" target="_blank" title="Telegram">
+                    <img src="assets/icons/Telegram_logo.png" alt="Telegram" class="social-icon">
+                </a>
+                <a href="mailto:egrvyatkin@gmail.com" title="Email">
+                    <img src="assets/icons/Gmail_Icon.png" alt="Email" class="social-icon">
+                </a>
+            </div>
+            <hr>
+            <p><b>Нашли ошибку?</b></p>
+            <p>Помогите проекту стать лучше! Вы можете создать Issue в репозитории:</p>
+            <a href="https://github.com/egrvtkn/altay-heritage-map/issues/new" target="_blank"
+                class="issue-link">Сообщить об ошибке на GitHub</a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script src="scripts.js"></script>
-
 </body>
+
 </html>
